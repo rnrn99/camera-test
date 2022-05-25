@@ -1,10 +1,11 @@
 import React from "react";
 import CameraComp from "./components/CameraComp";
+import WebCamComp from "./components/WebCamComp";
 
 function App() {
   return (
     <div className="App">
-      <CameraComp />왜 안돼
+      <WebCamComp />
     </div>
   );
 }
