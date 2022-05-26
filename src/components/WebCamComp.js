@@ -3,16 +3,14 @@ import Webcam from "react-webcam";
 
 function WebCamComp() {
   const [image, setImage] = useState(null);
-  const [url, setUrl] = useState(null);
 
   const videoConstraints = {
-    width: 1280,
+    width: 680,
     height: 720,
     facingMode: "environment",
   };
 
   const webcamRef = useRef(null);
-  const imageRef = useRef(null);
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImage(imageSrc);
@@ -21,19 +19,14 @@ function WebCamComp() {
   useEffect(() => {
     if (image) {
       const blob = new Blob([image], {
-        type: "image/jpeg",
+        type: "image/png",
       });
-      console.log(blob);
-      const newUrl = URL.createObjectURL(blob);
-      setUrl(newUrl);
+      const file = new File([blob], "temp.png");
+
+      const formData = new FormData();
+      formData.append("file", file);
     }
   }, [image]);
-
-  useEffect(() => {
-    if (url) {
-      imageRef.current.src = url;
-    }
-  }, [url]);
 
   return (
     <>
@@ -48,7 +41,6 @@ function WebCamComp() {
       <button onClick={capture}>Capture photo</button>
 
       {image && <img src={image} alt="taken" />}
-      {url && <img alt="url convert" ref={imageRef} width="300" />}
     </>
   );
 }
